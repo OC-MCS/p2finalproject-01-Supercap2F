@@ -158,6 +158,9 @@
     <Text Include="Readme.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="alien.h" />
+    <ClInclude Include="alienManager.h" />
+    <ClInclude Include="bomb.h" />
     <ClInclude Include="missile.h" />
     <ClInclude Include="ship.h" />
     <ClInclude Include="spriteManager.h" />

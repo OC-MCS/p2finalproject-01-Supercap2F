@@ -6,7 +6,6 @@ using namespace std;
 using namespace sf;
 #include "spriteManager.h"
 
-
 class missile {
 private:
 	int posx;

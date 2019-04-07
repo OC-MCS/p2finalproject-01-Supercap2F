@@ -52,5 +52,14 @@
     <ClInclude Include="spriteManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="alienManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bomb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="alien.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

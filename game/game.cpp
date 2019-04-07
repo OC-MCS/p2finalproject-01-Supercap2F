@@ -14,7 +14,6 @@ using namespace sf;
 //============================================================
 // YOUR HEADER WITH YOUR NAME GOES HERE. PLEASE DO NOT FORGET THIS
 //============================================================
-
 int main()
 {
 	// ======== basic window setup
@@ -36,7 +35,7 @@ int main()
 	background = spriteManager.getBackgroundSprite();
 
 	// The texture file is 640x480, so scale it up a little to cover 800x600 window
-	background.setScale(1.5, 1.5);
+	//background.setScale(1.5, 1.5);
 
 	// initial position of the ship will be approx middle of screen
 	float shipX = window.getSize().x / 2.0f;

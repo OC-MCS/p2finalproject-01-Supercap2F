@@ -29,15 +29,20 @@ void Ship::moveShip()
 	{
 		// left arrow is pressed: move our ship left 5 pixels
 		// 2nd parm is y direction. We don't want to move up/down, so it's zero.
-		shipSprite.move(-DISTANCE, 0);
-		shipX = shipSprite.getPosition().x;
+		if ((shipSprite.getPosition().x + -DISTANCE) >= 0) {
+			shipSprite.move(-DISTANCE, 0);
+			shipX = shipSprite.getPosition().x;
+		}
 	}
 	else if (Keyboard::isKeyPressed(Keyboard::Right))
 	{
 		// right arrow is pressed: move our ship right 5 pixels
-		shipSprite.move(DISTANCE, 0);
-		shipX = shipSprite.getPosition().x;
+		if ((shipSprite.getPosition().x + DISTANCE) <= (background->getLocalBounds().width - shipSprite.getLocalBounds().width)) {
+			shipSprite.move(DISTANCE, 0);
+			shipX = shipSprite.getPosition().x;
+		}
 	}
+
 };
 
 
@@ -55,7 +60,7 @@ void Ship::draw(RenderWindow &window) {
 // functions that relate to the missile class
 void Ship::fireMissile() {
 	if (timer == 0) {
-		missile m(spriteManager, shipX, shipY);
+		missile m(spriteManager, shipX + 16, shipY - 5);
 		missiles.push_back(m);
 		timer = MISSILE_COOLDOWN;
 	}
@@ -69,7 +74,6 @@ void Ship::updateMissiles() {
 	for (iter = missiles.begin(); iter != missiles.end(); iter++){
 		iter->move();
 	}
-
 
 	// check to see if the missile is still contained in the background
 	for (iter = missiles.begin(); iter != missiles.end(); /* note no ++ here*/)

@@ -15,7 +15,6 @@ void missile::draw(RenderWindow &window) {
 	window.draw(missileSprite);
 };
 
-
 void missile::move() {
 	missileSprite.move(0, -DISTANCE);
 	posy = missileSprite.getPosition().y;
@@ -24,5 +23,3 @@ void missile::move() {
 Vector2f missile::getPosition() {
 	return missileSprite.getPosition();
 }
-
-

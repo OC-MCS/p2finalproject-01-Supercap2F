@@ -1,6 +1,5 @@
 #include "spriteManager.h"
 
-
 SpriteManager::SpriteManager() {
 	// load texture and sprite for the missiles
 	if (!missileTexture.loadFromFile("fireMissile.png")) {
@@ -18,7 +17,7 @@ SpriteManager::SpriteManager() {
 	shipSprite.setTexture(shipTexture);
 
 	// load texture for the background
-	if (!backgroundTexture.loadFromFile("stars.jpg")) {
+	if (!backgroundTexture.loadFromFile("blueBackground.png")) {
 		cout << "Unable to load stars texture!" << endl;
 		exit(EXIT_FAILURE);
 	}
