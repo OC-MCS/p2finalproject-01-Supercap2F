@@ -146,10 +146,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="alien.cpp" />
+    <ClCompile Include="alienManager.cpp" />
+    <ClCompile Include="bombs.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="missile.cpp" />
+    <ClCompile Include="ship.cpp" />
+    <ClCompile Include="spriteManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="missile.h" />
+    <ClInclude Include="ship.h" />
+    <ClInclude Include="spriteManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
