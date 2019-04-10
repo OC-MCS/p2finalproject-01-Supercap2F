@@ -10,6 +10,8 @@ using namespace std;
 #include "spriteManager.h"
 using namespace sf; 
 #include "ship.h"
+#include "alienManager.h"
+#include "gameManager.h"
 
 //============================================================
 // YOUR HEADER WITH YOUR NAME GOES HERE. PLEASE DO NOT FORGET THIS
@@ -27,7 +29,7 @@ int main()
 
 	// ======== setup the sprite manager
 	SpriteManager spriteManager;
-
+	GameManager gameManager;
 
 	// load textures from file into memory. This doesn't display anything yet.
 	// Notice we do this *before* going into animation loop.
@@ -41,6 +43,10 @@ int main()
 	float shipX = window.getSize().x / 2.0f;
 	float shipY = window.getSize().y / 1.15f;
 	Ship ship(background, spriteManager, shipX, shipY);
+	
+	AlienManager alienManager(background, spriteManager, gameManager, ship);
+
+	bool flag = true;
 	
 	while (window.isOpen())
 	{
@@ -59,7 +65,12 @@ int main()
 				{
 					ship.fireMissile();
 				}
-				
+				if (event.key.code == Keyboard::A && !gameManager.isGameRunning()) {
+					gameManager.aPressed();
+				}
+				if (event.key.code == Keyboard::B && !gameManager.isGameRunning()) {
+					gameManager.bPressed();
+				}
 			}
 		}
 
@@ -68,18 +79,48 @@ int main()
 		// code to produce ONE frame of the animation. The next iteration of the loop will
 		// render the next frame, and so on. All this happens ~ 60 times/second.
 		//===========================================================
+		window.clear();
 
-		// draw background first, so everything that's drawn later 
-		// will appear on top of background
-		window.draw(background);
+		if (gameManager.isGameRunning()) {
+			if (gameManager.resetLevel()) {
+				alienManager.resetAliens();
+				ship.resetShip();
+			}
 
-		ship.moveShip();
-		ship.updateMissiles();
+			// draw background first, so everything that's drawn later 
+			// will appear on top of background
+			window.draw(background);
 
-		// draw the ship on top of background 
-		// (the ship from previous frame was erased when we drew background)
-		ship.draw(window);
-		
+			// draw the ship on top of background 
+			// (the ship from previous frame was erased when we drew background)
+			ship.moveShip();
+			ship.updateMissiles();
+			ship.draw(window);
+
+			// draw the aliens ontop of the background next
+			alienManager.moveAliens(window);
+			alienManager.drawAliens(window);
+
+
+			alienManager.dropBombs();
+			alienManager.moveBombs(window);
+			alienManager.drawBombs(window);
+
+			// detect any collisions after moving all of the game elements
+			alienManager.detectCollisions();
+
+			gameManager.displayData(window);
+		}
+		else { // menu is displayed 
+			
+			gameManager.updateMenu();
+			gameManager.drawMenu(window);
+
+
+
+		}
+
+
 		// end the current frame; this makes everything that we have 
 		// already "drawn" actually show up on the screen
 		window.display();

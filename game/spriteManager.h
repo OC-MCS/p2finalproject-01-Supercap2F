@@ -15,6 +15,12 @@ private:
 	
 	Texture backgroundTexture;
 	Sprite backgroundSprite;
+
+	Texture alienTexture;
+	Sprite alienSprite;
+
+	Texture bombTexture;
+	Sprite bombSprite;
 public:
 
 	// constructor loads all textures
@@ -23,5 +29,7 @@ public:
 	Sprite getMissileSprite();
 	Sprite getShipSprite();
 	Sprite getBackgroundSprite();
+	Sprite getAlienSprite();
+	Sprite getBombSprite();
 
 };

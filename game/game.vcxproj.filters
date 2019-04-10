@@ -27,13 +27,16 @@
     <ClCompile Include="alien.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="bombs.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="missile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="spriteManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bomb.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gameManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -61,5 +64,16 @@
     <ClInclude Include="alien.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="gameManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="VT323-Regular.ttf">
+      <Filter>Resource Files</Filter>
+    </Font>
+    <Font Include="couri.ttf">
+      <Filter>Resource Files</Filter>
+    </Font>
   </ItemGroup>
 </Project>

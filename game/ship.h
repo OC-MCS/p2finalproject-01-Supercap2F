@@ -22,18 +22,25 @@ private:
 	Sprite *background;
 	SpriteManager *spriteManager;
 
-	const int MISSILE_COOLDOWN = 15; // in fps
+	const int MISSILE_COOLDOWN = 10; // in fps
 	int timer = 0;
 
 public:
 	// default constructor
 	Ship(Sprite &back, SpriteManager &text, int x, int y);
 
+
+
 	void fireMissile();
 	void updateMissiles();
 
 	void moveShip();
-
+	void resetShip();
 	void draw(RenderWindow &window);
 
+	// returns true and deletes the missile if it contacts an alien 
+	bool missileInContactWithAlien(FloatRect bounds);
+
+	Vector2f getPosition();
+	FloatRect getBounds();
 };

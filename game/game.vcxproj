@@ -148,8 +148,9 @@
   <ItemGroup>
     <ClCompile Include="alien.cpp" />
     <ClCompile Include="alienManager.cpp" />
-    <ClCompile Include="bombs.cpp" />
+    <ClCompile Include="bomb.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="gameManager.cpp" />
     <ClCompile Include="missile.cpp" />
     <ClCompile Include="ship.cpp" />
     <ClCompile Include="spriteManager.cpp" />
@@ -161,9 +162,14 @@
     <ClInclude Include="alien.h" />
     <ClInclude Include="alienManager.h" />
     <ClInclude Include="bomb.h" />
+    <ClInclude Include="gameManager.h" />
     <ClInclude Include="missile.h" />
     <ClInclude Include="ship.h" />
     <ClInclude Include="spriteManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="couri.ttf" />
+    <Font Include="VT323-Regular.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

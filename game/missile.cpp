@@ -23,3 +23,7 @@ void missile::move() {
 Vector2f missile::getPosition() {
 	return missileSprite.getPosition();
 }
+
+FloatRect missile::getBounds() {
+	return missileSprite.getGlobalBounds();
+};

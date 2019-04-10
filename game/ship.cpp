@@ -23,8 +23,7 @@ Ship::Ship(Sprite &back, SpriteManager &spriteMgr, int x, int y) {
 // the current position of the ship. 
 // x is horizontal, y is vertical. 
 // 0,0 is in the UPPER LEFT of the screen, y increases DOWN the screen
-void Ship::moveShip()
-{
+void Ship::moveShip() {
 	if (Keyboard::isKeyPressed(Keyboard::Left))
 	{
 		// left arrow is pressed: move our ship left 5 pixels
@@ -42,7 +41,6 @@ void Ship::moveShip()
 			shipX = shipSprite.getPosition().x;
 		}
 	}
-
 };
 
 
@@ -93,5 +91,31 @@ void Ship::updateMissiles() {
 	}
  }
 
+bool Ship::missileInContactWithAlien(FloatRect bounds) {
+	bool r = false;
+	list<missile>::iterator iter;
+	iter = missiles.begin();
+	while (iter != missiles.end()) {
+		if (bounds.contains(iter->getPosition())) {
+			iter = missiles.erase(iter);
+			r = true;
+		}
+		else {
+			iter++;
+		}
+	}
+	return r;
+};
 
+Vector2f Ship::getPosition() {
+	return shipSprite.getPosition();
+};
+
+FloatRect Ship::getBounds() {
+	return shipSprite.getGlobalBounds();
+};
+
+void Ship::resetShip() {
+	missiles.clear();
+}
 

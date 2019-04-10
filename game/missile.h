@@ -5,6 +5,7 @@
 using namespace std;
 using namespace sf;
 #include "spriteManager.h"
+#include "alien.h"
 
 class missile {
 private:
@@ -20,9 +21,10 @@ public:
 	missile(SpriteManager *text, int x, int y);
 
 	// copy constructor
-	
 	void move();
 	void draw(RenderWindow &window);
 
+
 	Vector2f getPosition();
+	FloatRect getBounds();
 };

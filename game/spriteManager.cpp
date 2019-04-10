@@ -23,6 +23,19 @@ SpriteManager::SpriteManager() {
 	}
 	backgroundSprite.setTexture(backgroundTexture);
 
+	// load texture for the alien
+	if (!alienTexture.loadFromFile("alien.png")) {
+		cout << "Unable to load stars texture!" << endl;
+		exit(EXIT_FAILURE);
+	}
+	alienSprite.setTexture(alienTexture);
+
+	// load texture for the bomb
+	if (!bombTexture.loadFromFile("bomb1.png")) {
+		cout << "Unable to load stars texture!" << endl;
+		exit(EXIT_FAILURE);
+	}
+	bombSprite.setTexture(bombTexture);
 };
 
 Sprite SpriteManager::getMissileSprite() {
@@ -35,5 +48,13 @@ Sprite SpriteManager::getShipSprite() {
 
 Sprite SpriteManager::getBackgroundSprite() {
 	return backgroundSprite;
+};
+
+Sprite SpriteManager::getAlienSprite() {
+	return alienSprite;
+};
+
+Sprite SpriteManager::getBombSprite() {
+	return bombSprite;
 };
 
