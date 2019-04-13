@@ -1,28 +1,41 @@
+//====================================================================
+// Daniel Andresen
+// Due April 13st, 2019
+// Programming 2 / Final Project
+// Description: Alien class code 
+//====================================================================
 #include "alien.h"
 
-Alien::Alien( SpriteManager &spriteMgr, int x, int y) {
-	// get the sprite for the alien
-	alienSprite = spriteMgr.getAlienSprite();
+//====================================================================
+// constructor for the alien class, passed an initial position for the 
+// alien
+Alien::Alien(GameManager *gameManager, SpriteManager &spriteMgr, float x, float y) {
+	// get the sprite for the alien based on the current level
+	if(gameManager->getLevel() == 1) {
+		alienSprite = spriteMgr.getAlienSpriteLvl1();
+	}
+	else {
+		alienSprite = spriteMgr.getAlienSpriteLvl2(); 
+	}
 
 	// setup intial alien position 
-	posx = x;
-	posy = y;
-	alienSprite.setPosition(posx, posy);
-
-	// keep a pointer to the background for bounds checking
-	//background = &back;
+	alienSprite.setPosition(x, y);
 };
 
+//====================================================================
+// draws the alien on the window 
 void Alien::draw(RenderWindow &window) {
 	window.draw(alienSprite);
 };
 
-void Alien::move(int x, int y) {
+//====================================================================
+// moves the alien by the amount passed in the x and y variables 
+void Alien::move(float x, float y) {
 	alienSprite.move(x, y);
-	posy = alienSprite.getPosition().y;
-	posx = alienSprite.getPosition().x;
 };
 
+//====================================================================
+// getter functions used for bounds checking 
 Vector2f Alien::getPosition() {
 	return alienSprite.getPosition();
 }

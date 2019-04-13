@@ -1,14 +1,20 @@
+//====================================================================
+// Daniel Andresen
+// Due April 13st, 2019
+// Programming 2 / Final Project
+// Description: Ship Class Code
+//====================================================================
 #include "ship.h"
-#include "spriteManager.h"
 
-Ship::Ship(Sprite &back, SpriteManager &spriteMgr, int x, int y) {
+//====================================================================
+// The constructor gets the default sprite for the ship and sets up its
+// initial position.
+Ship::Ship(Sprite &back, SpriteManager &spriteMgr, float x, float y) {
 	// get the sprite for the ship
 	shipSprite = spriteMgr.getShipSprite();
 
 	// setup intial ship position 
-	shipX = x;
-	shipY = y;
-	shipSprite.setPosition(shipX, shipY);
+	shipSprite.setPosition(x, y);
 
 	// keep a pointer to the background for bounds checking
 	background = &back;
@@ -18,57 +24,52 @@ Ship::Ship(Sprite &back, SpriteManager &spriteMgr, int x, int y) {
 }
 
 
-// note: a Sprite represents an image on screen. A sprite knows and remembers its own position
-// ship.move(offsetX, offsetY) adds offsetX, offsetY to 
-// the current position of the ship. 
-// x is horizontal, y is vertical. 
-// 0,0 is in the UPPER LEFT of the screen, y increases DOWN the screen
+//====================================================================
+// moves the ship based on the arrow keys
 void Ship::moveShip() {
-	if (Keyboard::isKeyPressed(Keyboard::Left))
-	{
-		// left arrow is pressed: move our ship left 5 pixels
+	if (Keyboard::isKeyPressed(Keyboard::Left)) { 
+		// left arrow is pressed: move our ship left if it isn't outside of the screen
 		// 2nd parm is y direction. We don't want to move up/down, so it's zero.
 		if ((shipSprite.getPosition().x + -DISTANCE) >= 0) {
 			shipSprite.move(-DISTANCE, 0);
-			shipX = shipSprite.getPosition().x;
 		}
 	}
-	else if (Keyboard::isKeyPressed(Keyboard::Right))
-	{
-		// right arrow is pressed: move our ship right 5 pixels
+	else if (Keyboard::isKeyPressed(Keyboard::Right)) {
+		// right arrow is pressed: move our ship right if it isn't outside of the screen
 		if ((shipSprite.getPosition().x + DISTANCE) <= (background->getLocalBounds().width - shipSprite.getLocalBounds().width)) {
 			shipSprite.move(DISTANCE, 0);
-			shipX = shipSprite.getPosition().x;
 		}
 	}
 };
 
-
+//====================================================================
+// Draws all of the current missiles and the ship on the screen
 void Ship::draw(RenderWindow &window) {
 	window.draw(shipSprite);
 
-	// draw all the missiles along with the ship
+	// draw all the missiles
 	list<missile>::iterator iter;
 	for (iter = missiles.begin(); iter != missiles.end(); iter++) {
 		iter->draw(window);
 	}
 };
 
-
-// functions that relate to the missile class
+//====================================================================
+// Fire a single missile from the current location of the ship
 void Ship::fireMissile() {
-	if (timer == 0) {
-		missile m(spriteManager, shipX + 16, shipY - 5);
+	if (timer == 0) { // make sure the timeout has passed
+		missile m(spriteManager, shipSprite.getPosition().x + 16, shipSprite.getPosition().y - 5);
 		missiles.push_back(m);
 		timer = MISSILE_COOLDOWN;
 	}
 };
 
-// updates the missiles and checks thier bounds
+//====================================================================
+// update all of the missiles and check if they are still on the screen
 void Ship::updateMissiles() {
 	list<missile>::iterator iter;
 
-	// move the active missiles positions and make sure they are still in the window 
+	// move the active missiles positions upward
 	for (iter = missiles.begin(); iter != missiles.end(); iter++){
 		iter->move();
 	}
@@ -91,13 +92,16 @@ void Ship::updateMissiles() {
 	}
  }
 
+//====================================================================
+// Checks and returns true if a missile is touching an alien 
+// along with deleting the missile if it is.
 bool Ship::missileInContactWithAlien(FloatRect bounds) {
 	bool r = false;
 	list<missile>::iterator iter;
 	iter = missiles.begin();
 	while (iter != missiles.end()) {
 		if (bounds.contains(iter->getPosition())) {
-			iter = missiles.erase(iter);
+			iter = missiles.erase(iter); // delete the missile
 			r = true;
 		}
 		else {
@@ -107,6 +111,8 @@ bool Ship::missileInContactWithAlien(FloatRect bounds) {
 	return r;
 };
 
+//====================================================================
+// Getter functions used for bounds checking 
 Vector2f Ship::getPosition() {
 	return shipSprite.getPosition();
 };
@@ -115,6 +121,8 @@ FloatRect Ship::getBounds() {
 	return shipSprite.getGlobalBounds();
 };
 
+//====================================================================
+// removes all of the active missiles when a new game is started
 void Ship::resetShip() {
 	missiles.clear();
 }

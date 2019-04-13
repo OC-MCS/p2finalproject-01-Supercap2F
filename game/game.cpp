@@ -1,9 +1,9 @@
-//=========================================================
-// This is just the starting point for your final project.
-// You are expected to modify and add classes/files as needed.
-// The code below is the original code for our first graphics
-// project (moving the little green ship). 
-//========================================================
+//====================================================================
+// Daniel Andresen
+// Due April 13st, 2019
+// Programming 2 / Final Project
+// Description: Main Game Loop
+//====================================================================
 #include <iostream>
 using namespace std;
 #include <SFML/Graphics.hpp>
@@ -14,7 +14,7 @@ using namespace sf;
 #include "gameManager.h"
 
 //============================================================
-// YOUR HEADER WITH YOUR NAME GOES HERE. PLEASE DO NOT FORGET THIS
+// SPACE INVADERS - CREATED BY DANIEL ANDRESEN 
 //============================================================
 int main()
 {
@@ -26,51 +26,44 @@ int main()
 	// Limit the framerate to 60 frames per second
 	window.setFramerateLimit(60);
 
-
-	// ======== setup the sprite manager
+	// load textures from file into memory. This doesn't display anything yet.
 	SpriteManager spriteManager;
+
+	// create an instance of the game manager for keeping up with game variabls 
 	GameManager gameManager;
 
-	// load textures from file into memory. This doesn't display anything yet.
-	// Notice we do this *before* going into animation loop.
+	// create the backgrond for the game 
 	Sprite background;
 	background = spriteManager.getBackgroundSprite();
-
-	// The texture file is 640x480, so scale it up a little to cover 800x600 window
-	//background.setScale(1.5, 1.5);
 
 	// initial position of the ship will be approx middle of screen
 	float shipX = window.getSize().x / 2.0f;
 	float shipY = window.getSize().y / 1.15f;
 	Ship ship(background, spriteManager, shipX, shipY);
 	
+	// create the alien manager
 	AlienManager alienManager(background, spriteManager, gameManager, ship);
 
-	bool flag = true;
-	
+	// main game loop
 	while (window.isOpen())
 	{
 		// check all the window's events that were triggered since the last iteration of the loop
-		// For now, we just need this so we can click on the window and close it
 		Event event;
-
 		while (window.pollEvent(event))
 		{
 			// "close requested" event: we close the window
 			if (event.type == Event::Closed)
 				window.close();
-			else if (event.type == Event::KeyPressed)
-			{
-				if (event.key.code == Keyboard::Space)
-				{
+			else if (event.type == Event::KeyPressed) {
+				// fire missile if the space bar was pressed
+				if (event.key.code == Keyboard::Space) {
 					ship.fireMissile();
 				}
-				if (event.key.code == Keyboard::A && !gameManager.isGameRunning()) {
-					gameManager.aPressed();
-				}
-				if (event.key.code == Keyboard::B && !gameManager.isGameRunning()) {
-					gameManager.bPressed();
-				}
+			}
+
+			// mouse released event: the mouse was clicked most likely on a menu button
+			if (event.type == Event::MouseButtonReleased) {
+				gameManager.mouseButtonReleased(window.mapPixelToCoords(Mouse::getPosition(window)));
 			}
 		}
 
@@ -79,12 +72,14 @@ int main()
 		// code to produce ONE frame of the animation. The next iteration of the loop will
 		// render the next frame, and so on. All this happens ~ 60 times/second.
 		//===========================================================
-		window.clear();
-
-		if (gameManager.isGameRunning()) {
+		window.clear(); // delete everything from the last frame
+		
+		// check if the main game is running and not the menu
+		if (gameManager.isGameRunning()) { 
+			// check if the next level was reached or the ship lost a life
 			if (gameManager.resetLevel()) {
-				alienManager.resetAliens();
-				ship.resetShip();
+				alienManager.resetAliens(); // reset the number of aliens and their positions
+				ship.resetShip();			// delete all of the missiles that are in the air
 			}
 
 			// draw background first, so everything that's drawn later 
@@ -94,14 +89,14 @@ int main()
 			// draw the ship on top of background 
 			// (the ship from previous frame was erased when we drew background)
 			ship.moveShip();
-			ship.updateMissiles();
+			ship.updateMissiles(); // move the missiles 
 			ship.draw(window);
 
 			// draw the aliens ontop of the background next
 			alienManager.moveAliens(window);
 			alienManager.drawAliens(window);
 
-
+			// drop the bombs and draw them on the screen
 			alienManager.dropBombs();
 			alienManager.moveBombs(window);
 			alienManager.drawBombs(window);
@@ -109,17 +104,13 @@ int main()
 			// detect any collisions after moving all of the game elements
 			alienManager.detectCollisions();
 
+			// finally add the game data to the top left corner
 			gameManager.displayData(window);
 		}
 		else { // menu is displayed 
-			
 			gameManager.updateMenu();
 			gameManager.drawMenu(window);
-
-
-
 		}
-
 
 		// end the current frame; this makes everything that we have 
 		// already "drawn" actually show up on the screen
@@ -131,7 +122,6 @@ int main()
 		// background, each frame is rebuilt from scratch.
 
 	} // end body of animation loop
-
 	return 0;
 }
 
